@@ -40,6 +40,10 @@ function formatData(type, data) {
       return clean(data);
   }
 }
+// Rota de teste para confirmar que o servidor está online
+app.get("/", (req, res) => {
+  res.send("🚀 Servidor QR Code Pro está online e aguardando requisições POST!");
+});
 
 app.post("/generate", async (req, res) => {
   try {

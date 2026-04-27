@@ -2,14 +2,14 @@
   "name": "qrcode-generator",
   "version": "1.0.0",
   "description": "Gerador de Qrcode",
-  "main": "server.js",
+  "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
     "dev": "node backend/server.js"
   },
   "keywords": [],
   "author": "Tatiane R Lima",
-  "license": "ISC",
+  "license": "MIT",
   "type": "module",
   "dependencies": {
     "cors": "^2.8.6",
@@ -17,5 +17,4 @@
     "express": "^5.2.1",
     "qrcode": "^1.5.4"
   }
- 
 }
