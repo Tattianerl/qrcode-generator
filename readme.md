@@ -109,10 +109,6 @@ index.html
 
 ### POST `/generate`
 
-```json
-
----
-```
 
 ## 📂 Estrutura do Projeto
 
