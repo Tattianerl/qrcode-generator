@@ -149,4 +149,4 @@ QRCODE-GENERATOR/
 
 ## 📄 Licença
 
-Este projeto está sob a licença MIT.
+Este projeto está sob a licença [MIT](./LICENSE).
