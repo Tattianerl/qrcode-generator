@@ -117,41 +117,67 @@ function clearAll() {
 function drawQRWithLogo(qrDataUrl) {
     const canvas = document.getElementById("qrCanvas");
     if (!canvas) return;
+
     const ctx = canvas.getContext("2d");
     const qr = new Image();
     const logo = new Image();
     
+    qr.crossOrigin = "anonymous";
+    logo.crossOrigin = "anonymous";
+
     qr.src = qrDataUrl;
-    logo.src = "./assets/logo.png"; 
+    logo.src = "assets/logo.png"; 
 
     qr.onload = () => {
         canvas.width = qr.width; 
         canvas.height = qr.height;
+        
         ctx.drawImage(qr, 0, 0);
         
+        const downloadBtn = document.getElementById("downloadLink");
+
         logo.onload = () => {
             const size = canvas.width * 0.22;
             const x = (canvas.width - size) / 2;
             const y = (canvas.height - size) / 2;
+
             ctx.fillStyle = "#fff";
             ctx.fillRect(x - 5, y - 5, size + 10, size + 10);
+            
             ctx.drawImage(logo, x, y, size, size);
-            document.getElementById("downloadLink").href = canvas.toDataURL();
+
+            downloadBtn.href = canvas.toDataURL("image/png");
+            downloadBtn.download = "qrcode-pro.png";
         };
+
         logo.onerror = () => {
-            document.getElementById("downloadLink").href = qrDataUrl;
+            console.warn("Logo não encontrada em assets/logo.png. Gerando QR sem logo.");
+            
+            downloadBtn.href = canvas.toDataURL("image/png");
+            downloadBtn.download = "qrcode.png";
         };
     };
 }
 
 async function copyQR() {
+    const canvas = document.getElementById("qrCanvas");
+    if (!canvas) return showToast("❌ Gere um QR Code primeiro");
+
     try {
-        const canvas = document.getElementById("qrCanvas");
-        const blob = await new Promise(r => canvas.toBlob(r));
-        await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
-        showToast("📋 Copiado para a área de transferência!");
-    } catch { 
-        showToast("❌ Erro ao copiar. Tente baixar a imagem."); 
+        canvas.toBlob(async (blob) => {
+            if (!blob) return showToast("❌ Erro ao processar imagem");
+            
+            try {
+                const item = new ClipboardItem({ "image/png": blob });
+                await navigator.clipboard.write([item]);
+                showToast("📋 Copiado com sucesso!");
+            } catch (err) {
+                console.error("Erro na cópia:", err);
+                showToast("❌ Navegador bloqueou a cópia");
+            }
+        }, "image/png");
+    } catch (err) {
+        showToast("❌ Erro ao acessar área de transferência");
     }
 }
 
@@ -159,7 +185,6 @@ function saveHistory(type, data) {
     let history = JSON.parse(localStorage.getItem("qrHistory")) || [];
     const entry = { type, data, date: new Date().getTime() };
     
-    // Evita duplicata exata no topo
     if (history.length > 0 && JSON.stringify(history[0].data) === JSON.stringify(data)) return;
     
     history.unshift(entry);
