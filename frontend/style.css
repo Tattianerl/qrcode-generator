@@ -1,0 +1,366 @@
+/* =========================================
+   VARIÁVEIS E TEMAS (COR: rgb(125, 103, 237))
+   ========================================= */
+:root {
+  /* Branding */
+  --primary: rgb(125, 103, 237);
+  --primary-hover: rgb(105, 83, 217);
+  --primary-glow: rgba(125, 103, 237, 0.3);
+  
+  /* Status */
+  --success: #22c55e;
+  --error: #f87171;
+  --white: #ffffff;
+
+  /* Modo Dark (Padrão) */
+  --bg-body: radial-gradient(circle at top right, #1e1b4b, #0f172a);
+  --bg-container: rgba(30, 41, 59, 0.75);
+  --bg-input: #0f172a;
+  --text-main: #f1f5f9;
+  --text-sub: #94a3b8;
+  --border: rgba(255, 255, 255, 0.1);
+  --btn-secondary: #334155;
+  --btn-secondary-hover: #475569;
+}
+
+[data-theme="light"] {
+  /* Modo Light */
+  --bg-body: radial-gradient(circle at top right, #f8fafc, #e2e8f0);
+  --bg-container: rgba(255, 255, 255, 0.9);
+  --bg-input: #ffffff;
+  --text-main: #1e293b;
+  --text-sub: #64748b;
+  --border: rgba(0, 0, 0, 0.1);
+  --btn-secondary: #f1f5f9;
+  --btn-secondary-hover: #e2e8f0;
+}
+
+/* =========================================
+   RESET E BASE
+   ========================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg-body);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
+  transition: background 0.4s ease, color 0.4s ease;
+  overflow-x: hidden;
+}
+
+.hidden { display: none; }
+
+/* =========================================
+   CAPA (HERO SECTION)
+   ========================================= */
+.hero-section {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 80px;
+  text-align: center;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.hero-badge {
+  background: var(--primary-glow);
+  color: var(--primary);
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-block;
+  margin-bottom: 24px;
+  border: 1px solid var(--primary);
+}
+
+.hero-title {
+  font-size: clamp(2.2rem, 8vw, 3.8rem);
+  line-height: 1.1;
+  margin-bottom: 20px;
+  font-weight: 900;
+}
+
+.hero-title span {
+  color: var(--primary);
+  text-shadow: 0 0 30px var(--primary-glow);
+}
+
+.hero-subtitle {
+  color: var(--text-sub);
+  font-size: 18px;
+  max-width: 550px;
+  margin: 0 auto 32px;
+  line-height: 1.6;
+}
+
+.hero-btn {
+  display: inline-block;
+  padding: 16px 36px;
+  background: var(--primary);
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 700;
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 25px var(--primary-glow);
+}
+
+.hero-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px var(--primary-glow);
+}
+
+/* =========================================
+   APP CONTAINER (GLASSMORPHISM)
+   ========================================= */
+.container {
+  background: var(--bg-container);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 40px 30px;
+  border-radius: 28px;
+  width: 100%;
+  max-width: 420px;
+  border: 1px solid var(--border);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  position: relative;
+  transition: all 0.4s ease;
+}
+
+.app-header {
+  margin-bottom: 24px;
+}
+
+.main-logo {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 8px 12px var(--primary-glow));
+}
+
+.highlight { color: var(--primary); }
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text-sub);
+  margin-bottom: 20px;
+}
+
+/* BOTÃO DE TEMA */
+.theme-wrapper {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.btn-theme {
+  background: var(--btn-secondary);
+  border: 1px solid var(--border);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+}
+
+.btn-theme:hover {
+  border-color: var(--primary);
+  transform: scale(1.1) rotate(15deg);
+}
+
+.icon-sun, .icon-moon { display: none; font-size: 18px; }
+[data-theme="dark"] .icon-sun { display: block; }
+[data-theme="light"] .icon-moon { display: block; }
+
+/* =========================================
+   INPUTS, SELECTS E LABELS
+   ========================================= */
+label {
+  font-size: 11px;
+  font-weight: 800;
+  display: block;
+  margin: 18px 0 6px;
+  text-align: left;
+  color: var(--text-sub);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+input, select {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border-radius: 14px;
+  border: 2px solid var(--border);
+  outline: none;
+  background: var(--bg-input);
+  color: var(--text-main);
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+/* =========================================
+   BOTÕES DO APP
+   ========================================= */
+.actions { display: flex; gap: 12px; margin-top: 10px; }
+
+button {
+  width: 100%;
+  padding: 15px;
+  border-radius: 14px;
+  border: none;
+  background: var(--primary);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.secondary {
+  background: transparent;
+  border: 2px solid var(--border);
+  color: var(--text-main);
+}
+
+.secondary:hover {
+  background: var(--btn-secondary);
+  border-color: var(--primary);
+}
+
+/* =========================================
+   RESULTADO E HISTÓRICO
+   ========================================= */
+#result { margin-top: 25px; }
+
+#result canvas {
+  width: 220px !important;
+  height: 220px !important;
+  padding: 12px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+  animation: fadeIn 0.5s ease;
+}
+
+.qr-actions { display: flex; gap: 10px; margin-top: 20px; }
+
+.btn-action {
+  flex: 1;
+  padding: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--btn-secondary);
+  border-radius: 12px;
+  color: var(--text-main);
+  text-decoration: none;
+  text-align: center;
+  border: 1px solid var(--border);
+  transition: 0.2s;
+}
+
+.btn-action:hover {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+.divider {
+  margin: 30px 0;
+  border: 0;
+  border-top: 1px dashed var(--border);
+}
+
+.history-item {
+  background: var(--bg-input);
+  padding: 14px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  border: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  transition: 0.3s;
+}
+
+.history-item:hover {
+  border-color: var(--primary);
+  transform: translateX(6px);
+  background: var(--btn-secondary-hover);
+}
+
+/* =========================================
+   ANIMAÇÕES E FEEDBACK
+   ========================================= */
+#toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--success);
+  color: var(--white);
+  padding: 14px 30px;
+  border-radius: 50px;
+  font-weight: 700;
+  box-shadow: 0 10px 25px rgba(34, 197, 94, 0.4);
+  z-index: 9999;
+  animation: fadeInOut 3s forwards;
+}
+
+.loader {
+  border: 4px solid var(--border);
+  border-top: 4px solid var(--primary);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInOut { 
+  0% { opacity: 0; bottom: 10px; } 
+  15% { opacity: 1; bottom: 30px; } 
+  85% { opacity: 1; bottom: 30px; } 
+  100% { opacity: 0; bottom: 10px; } 
+}
+
+/* =========================================
+   RESPONSIVIDADE
+   ========================================= */
+@media (max-width: 480px) {
+  body { padding: 40px 15px; }
+  .container { padding: 30px 20px; border-radius: 20px; }
+  .hero-title { font-size: 2.2rem; }
+  .qr-actions { flex-direction: column; }
+}

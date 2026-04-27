@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark"> <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Pro | Seu Gerador Profissional</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="./assets/logo.png">
+</head>
+<body>
+
+<main id="app" class="container">
+  <div class="theme-wrapper">
+    <button id="theme-toggle" class="btn-theme" title="Alternar tema">
+      <span class="icon-sun">☀️</span>
+      <span class="icon-moon">🌙</span>
+    </button>
+  </div>
+
+  <header class="app-header">
+    <div class="logo-area">
+      <img src="./assets/logo.png" alt="Logo QR Code Pro" class="main-logo">
+    </div>
+    <h1>QR Code <span class="highlight">Pro</span></h1>
+    <p class="subtitle">Sua identidade em cada conexão</p>
+  </header>
+
+  <div class="form-group">
+    <label for="type">O que você deseja gerar?</label>
+    <select id="type" onchange="renderFields()">
+      <option value="text">Texto</option>
+      <option value="url">Link / URL</option>
+      <option value="wifi">Rede Wi-Fi</option>
+      <option value="whatsapp">WhatsApp</option>
+      <option value="vcard">Cartão de Contato</option>
+      <option value="phone">Telefone</option>
+    </select>
+  </div>
+
+  <div id="fields"></div>
+
+  <div class="actions">
+    <button type="button" onclick="generate()">Gerar QR Code</button>
+    <button type="button" class="secondary" onclick="clearAll()">Limpar</button>
+  </div>
+
+  <section id="result" aria-live="polite"></section>
+
+  <hr class="divider">
+
+  <button type="button" class="secondary toggle" onclick="toggleHistory()">🕒 Ver histórico recente</button>
+
+  <section id="history-container" class="hidden">
+    <div class="history-header">
+      <h3>Histórico</h3>
+      <button type="button" class="btn-clear-history" onclick="clearHistory()" title="Limpar tudo">
+        🗑️
+      </button>
+    </div>
+    <div id="history"></div>
+  </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
