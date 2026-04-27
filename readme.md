@@ -59,8 +59,8 @@ Gerador de QR Code moderno, rápido e inteligente, capaz de interpretar diferent
 ### 🔹 1. Clonar repositório
 
 ```bash
-git clone https://github.com/tattianerl/qr-code-pro.git
-cd qr-code-pro
+git clone https://github.com/tattianerl/qrcode-generator.git
+cd qrcode-generator
 ```
 
 ---
