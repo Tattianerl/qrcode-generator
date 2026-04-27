@@ -2,7 +2,7 @@ const icons = { text: "📝", url: "🌐", phone: "📱", whatsapp: "💬", wifi
 
 const API_BASE_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
     ? "http://localhost:3000"
-    : "https://sua-api-no-render-ou-railway.com"; 
+    : "https://qrcode-generator-5x59.onrender.com"; 
 
 function renderFields() {
     const type = document.getElementById("type").value;
