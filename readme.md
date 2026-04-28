@@ -49,8 +49,8 @@ Gerador de QR Code moderno, rápido e inteligente, capaz de interpretar diferent
 
 ## 🌐 Deploy
 
-* Frontend: Vercel
-* Backend: Render
+* [Frontend: Vercel](https://glassqr.vercel.app)
+* [Backend: Render](https://qrcode-generator-5x59.onrender.com)
 
 ---
 

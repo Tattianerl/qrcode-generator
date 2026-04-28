@@ -42,7 +42,7 @@ function formatData(type, data) {
 }
 // Rota de teste para confirmar que o servidor está online
 app.get("/", (req, res) => {
-  res.send("🚀 Servidor QR Code Pro está online e aguardando requisições POST!");
+  res.send("🚀 Servidor GlassQR está online e aguardando requisições POST!");
 });
 
 app.post("/generate", async (req, res) => {
@@ -75,5 +75,5 @@ app.post("/generate", async (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`🚀 Servidor QR Pro Online na porta: ${PORT}`);
+  console.log(`🚀 Servidor GlassQR Online na porta: ${PORT}`);
 });
