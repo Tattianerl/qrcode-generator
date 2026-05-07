@@ -1,70 +1,78 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark"> <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GlassQR — Gerador de QR Code Profissional Grátis</title>
-  <meta name="description" content="Crie QR Codes personalizados com estilo Glassmorphism moderno e download gratuito. O melhor gerador de QR Code para profissionais.">
-  <meta name="keywords" content="gerador de qr code, glassmorphism, qr code grátis, criar qr code personalizado">
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/png" href="./assets/logo.png">
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlassQR — Gerador de QR Code Profissional Grátis</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="./assets/logo.png">
 </head>
 <body>
 
 <main id="app" class="container">
-  <div class="theme-wrapper">
-    <button id="theme-toggle" class="btn-theme" title="Alternar tema">
-      <span class="icon-sun">☀️</span>
-      <span class="icon-moon">🌙</span>
-    </button>
-  </div>
-
-  <header class="app-header">
-    <div class="logo-area">
-      <img src="./assets/logo.png" alt="Logo GlassQR" class="main-logo">
+    <div class="theme-wrapper">
+        <button id="theme-toggle" class="btn-theme" title="Alternar tema">
+            <span class="icon-sun">☀️</span>
+            <span class="icon-moon">🌙</span>
+        </button>
     </div>
-    <h1>GlassQR<span class="highlight">Code</span></h1>
-    <p class="subtitle">Sua identidade em cada conexão</p>
-  </header>
 
-  <div class="form-group">
-    <label for="type">O que você deseja gerar?</label>
-    <select id="type" onchange="renderFields()">
-      <option value="text">Texto</option>
-      <option value="url">Link / URL</option>
-      <option value="wifi">Rede Wi-Fi</option>
-      <option value="whatsapp">WhatsApp</option>
-      <option value="vcard">Cartão de Contato</option>
-      <option value="phone">Telefone</option>
-    </select>
-  </div>
-
-  <div id="fields"></div>
-
-  <div class="actions">
-    <button type="button" onclick="generate()">Gerar QR Code</button>
-    <button type="button" class="secondary" onclick="clearAll()">Limpar</button>
-  </div>
-
-  <section id="result" aria-live="polite"></section>
-
-  <hr class="divider">
-
-  <button type="button" class="secondary toggle" onclick="toggleHistory()">🕒 Ver histórico recente</button>
-
-  <section id="history-container" class="hidden">
-    <div class="history-header">
-      <h3>Histórico</h3>
-      <button type="button" class="btn-clear-history" onclick="clearHistory()" title="Limpar tudo">
-        🗑️
-      </button>
+    <div id="confirmModal" class="modal hidden">
+        <div class="modal-content">
+            <p>Deseja apagar todo o seu histórico?</p>
+            <div class="modal-actions">
+                <button id="confirmClear">Sim</button>
+                <button id="closeModal">Cancelar</button>
+            </div>
+        </div>
     </div>
-    <div id="history"></div>
-  </section>
 
+    <header class="app-header">
+        <div class="logo-area">
+            <img src="./assets/logo.png" alt="Logo GlassQR" class="main-logo">
+        </div>
+        <h1>GlassQR<span class="highlight">Code</span></h1>
+        <p class="subtitle">Sua identidade em cada conexão</p>
+    </header>
+
+    <div class="form-group">
+        <label for="type">O que você deseja gerar?</label>
+        <select id="type">
+            <option value="text">Texto</option>
+            <option value="url">Link / URL</option>
+            <option value="wifi">Rede Wi-Fi</option>
+            <option value="whatsapp">WhatsApp</option>
+            <option value="vcard">Cartão de Contato</option>
+            <option value="phone">Telefone</option>
+        </select>
+    </div>
+
+    <div id="fields"></div>
+
+    <div class="actions">
+        <button type="button" id="btnGenerate">Gerar QR Code</button>
+        <button type="button" class="secondary" id="btnClear">Limpar</button>
+    </div>
+
+    <section id="result" aria-live="polite"></section>
+
+    <hr class="divider">
+
+    <button type="button" class="secondary toggle" id="btnToggleHistory">🕒 Ver histórico recente</button>
+
+    <section id="history-container" class="hidden">
+        <div class="history-header">
+            <h3>Histórico</h3>
+            <button type="button" class="btn-clear-history" id="btnClearHistory" title="Limpar tudo">🗑️</button>
+        </div>
+        <div id="history"></div>
+    </section>
 </main>
-<footer style="margin-top:20px; font-size:12px; opacity:0.6;">
-  © 2026 Tatiane Lima • MIT License
+
+<footer style="margin-top:20px; font-size:12px; opacity:0.6; text-align: center;">
+    © 2026 Tatiane Lima • MIT License
 </footer>
+
 <script src="script.js"></script>
 </body>
 </html>
