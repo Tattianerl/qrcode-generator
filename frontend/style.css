@@ -138,6 +138,8 @@ body {
   text-align: center;
   position: relative;
   transition: all 0.4s ease;
+  overflow: hidden; 
+  word-wrap: break-word;
 }
 
 .app-header {
@@ -278,7 +280,10 @@ button:hover {
   animation: fadeIn 0.5s ease;
   margin: 10px auto;
 }
-
+canvas, img {
+    max-width: 100%;
+    height: auto !important;
+}
 .qr-actions { display: flex; gap: 10px; margin-top: 20px; }
 
 .btn-action {
@@ -307,10 +312,14 @@ button:hover {
   border: 0;
   border-top: 1px dashed var(--border);
 }
-
-.history-header h3{
-  margin: 10px;
-  color: var(--success);
+.history-header h3 {
+    text-align: left;
+    color: var(--text-sub); 
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px 5px; 
 }
 .history-item {
   background: var(--bg-input);
@@ -408,6 +417,96 @@ button:hover {
   }
 
 
+/* Container do seletor personalizado */
+.custom-select-wrapper {
+    position: relative;
+    user-select: none;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.custom-select {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    background: var(--bg-input);
+    cursor: pointer;
+}
+
+.custom-select-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.arrow {
+    width: 10px;
+    height: 10px;
+    border-left: 2px solid var(--text-sub);
+    border-bottom: 2px solid var(--text-sub);
+    transform: rotate(-45deg);
+    transition: all 0.3s;
+    margin-bottom: 5px;
+}
+
+/* Quando o seletor está aberto */
+.custom-select.open .arrow {
+    transform: rotate(135deg);
+    margin-bottom: -5px;
+}
+
+.custom-options {
+    position: absolute;
+    display: block;
+    top: 105%;
+    left: 0;
+    right: 0;
+    border: 1px solid var(--border);
+    background: var(--bg-modal-content);
+    border-radius: 14px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: all 0.3s;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.custom-select.open .custom-options {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+    transform: translateY(0);
+}
+
+.custom-option {
+    position: relative;
+    display: block;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-main);
+    transition: all 0.2s;
+    text-align: left;
+}
+
+.custom-option:hover {
+    background: var(--primary-glow);
+    color: var(--primary);
+}
+
+.custom-option.selected {
+    background: var(--primary);
+    color: white;
+}
 
 
 /* =========================================
@@ -427,7 +526,7 @@ button:hover {
   
   .actions, .qr-actions { 
     flex-direction: column; 
-    gap: 10px; 
+    gap: 8px; 
   }
 }
 #result {
@@ -440,6 +539,7 @@ button:hover {
     max-height: 130px !important;
     margin: 10px auto;
   }
+
 /* Celular (Paisagem / Landscape) */
 @media (max-height: 500px) and (orientation: landscape) {
   body { 
@@ -459,10 +559,16 @@ button:hover {
   .actions {
     display: flex;
     flex-direction: row; 
-    gap: 12px;
-    margin: 20px 0; 
+    gap: 4px;
+    margin-top: 15px;
     width: 100%;
   }
+  .actions button {
+    flex: 1; 
+    padding: 6px 50px; 
+    font-size: 8px;    
+}
+
   button.secondary {
     display: flex;
     align-items: center;
@@ -477,12 +583,16 @@ button:hover {
     gap: 12px;
     align-items: end; 
   }
+  #fields input {
+    margin-bottom: 12px; 
+   }
 
   .field-group {
     display: flex;
     flex-direction: column;
     width: 100%;
     text-align: left;
+    margin-bottom: 15px;
   }
 
   /* Estilo do aviso "Inclua o código do país" */

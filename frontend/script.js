@@ -46,17 +46,31 @@ async function generate(immediate = false) {
     const delay = immediate ? 0 : 800;
 
     timeout = setTimeout(async () => {
-        const type = document.getElementById("type").value;
+        const typeEl = document.getElementById("type");
+        if (!typeEl) return; 
+        
+        const type = typeEl.value;
         let data;
 
         if (type === "vcard") {
-            data = { name: document.getElementById("name")?.value, phone: document.getElementById("phone_field")?.value, email: document.getElementById("email")?.value };
+            data = { 
+                name: document.getElementById("name")?.value, 
+                phone: document.getElementById("phone_field")?.value, 
+                email: document.getElementById("email")?.value
+            };
             if (!data.name || !data.phone) return;
         } else if (type === "whatsapp") {
-            data = { phone: document.getElementById("phone_field")?.value, message: document.getElementById("message")?.value };
+            data = { 
+                phone: document.getElementById("phone_field")?.value, 
+                message: document.getElementById("message")?.value
+            };
             if (!data.phone) return;
         } else if (type === "wifi") {
-            data = { ssid: document.getElementById("ssid")?.value, password: document.getElementById("password")?.value, security: document.getElementById("security")?.value };
+            data = { 
+                ssid: document.getElementById("ssid")?.value, 
+                password: document.getElementById("password")?.value, 
+                security: document.getElementById("security")?.value
+            };
             if (!data.ssid) return;
         } else {
             data = document.getElementById("single")?.value;
@@ -72,19 +86,27 @@ async function generate(immediate = false) {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ type, data })
             });
+
+            if (!response.ok) throw new Error("Falha na resposta da API");
+
             const res = await response.json();
             
-            result.innerHTML = `
-                <canvas id="qrCanvas"></canvas>
-                <div class="qr-actions">
-                    <a id="downloadLink" class="btn-action">⬇️ Baixar</a>
-                    <button id="copyBtn" class="btn-action">📋 Copiar</button>
-                </div>`;
+            if (result) {
+                result.innerHTML = `
+                    <canvas id="qrCanvas"></canvas>
+                    <div class="qr-actions">
+                        <a id="downloadLink" class="btn-action">⬇️ Baixar</a>
+                        <button id="copyBtn" class="btn-action">📋 Copiar</button>
+                    </div>`;
             
             drawQR(res.qr);
             saveHistory(type, data);
-        } catch (err) {
-            result.innerHTML = `<p style="color: #ef4444;">❌ Erro de conexão</p>`;
+            }
+       } catch (err) {
+            console.error("Erro na geração:", err);
+            if (result) {
+                result.innerHTML = `<p style="color: var(--error);">⚠️ Não foi possível gerar o código. Tente novamente.</p>`;
+            }
         }
     }, delay);
 }
@@ -180,36 +202,77 @@ window.loadHistory = (index) => {
         generate(true);
     }, 50);
 };
-
-/* ================= INICIALIZAÇÃO ================= */
+/* ================= INICIALIZAÇÃO (ATUALIZADA) ================= */
 document.addEventListener("DOMContentLoaded", () => {
     renderFields();
     renderHistory();
 
-    // Eventos
-    document.getElementById("type").onchange = renderFields;
+    const customSelect = document.getElementById("customSelect");
+    const trigger = customSelect?.querySelector(".custom-select-trigger");
+    const options = customSelect?.querySelectorAll(".custom-option");
+    const realSelect = document.getElementById("type");
+
+    if (trigger && options) {
+        trigger.onclick = (e) => {
+            e.stopPropagation(); 
+            customSelect.classList.toggle("open");
+        };
+
+        options.forEach(option => {
+            option.onclick = () => {
+                options.forEach(opt => opt.classList.remove("selected"));
+                option.classList.add("selected");
+                
+                customSelect.classList.remove("open");
+                trigger.querySelector("span").textContent = option.textContent;
+
+                if (realSelect) {
+                    realSelect.value = option.getAttribute("data-value");
+                    renderFields(); 
+                }
+            };
+        });
+
+        window.addEventListener("click", () => {
+            customSelect.classList.remove("open");
+        });
+    }
+
     document.getElementById("btnGenerate").onclick = () => generate(true);
-    document.getElementById("btnClear").onclick = () => { renderFields(); document.getElementById("result").innerHTML = ""; };
-    document.getElementById("btnToggleHistory").onclick = () => document.getElementById("history-container").classList.toggle("hidden");
-    document.getElementById("btnClearHistory").onclick = () => document.getElementById("confirmModal").classList.remove("hidden");
-    document.getElementById("closeModal").onclick = () => document.getElementById("confirmModal").classList.add("hidden");
+    
+    document.getElementById("btnClear").onclick = () => { 
+        renderFields(); 
+        const result = document.getElementById("result");
+        if (result) result.innerHTML = ""; 
+    };
+
+    // Gestão do Histórico e Modal
+    document.getElementById("btnToggleHistory").onclick = () => 
+        document.getElementById("history-container").classList.toggle("hidden");
+
+    document.getElementById("btnClearHistory").onclick = () => 
+        document.getElementById("confirmModal").classList.remove("hidden");
+
+    document.getElementById("closeModal").onclick = () => 
+        document.getElementById("confirmModal").classList.add("hidden");
+
     document.getElementById("confirmClear").onclick = () => {
         localStorage.removeItem("qrHistory");
         renderHistory();
         document.getElementById("confirmModal").classList.add("hidden");
     };
 
-    // Debounce no formulário
+    // Debounce e Inputs Dinâmicos
     document.getElementById("fields").oninput = () => generate();
 
-    // Tema
+    // 6. Alternância de Tema
     document.getElementById("theme-toggle").onclick = () => {
-        const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-        document.documentElement.setAttribute("data-theme", isDark ? "light" : "dark");
+        const currentTheme = document.documentElement.getAttribute("data-theme");
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", newTheme);
     };
 });
 
-// Copiar (Global Delegation)
 document.addEventListener("click", e => {
     if (e.target.id === "copyBtn") {
         const canvas = document.getElementById("qrCanvas");

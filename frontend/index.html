@@ -34,10 +34,10 @@
         <h1>GlassQR<span class="highlight">Code</span></h1>
         <p class="subtitle">Sua identidade em cada conexão</p>
     </header>
-
-    <div class="form-group">
-        <label for="type">O que você deseja gerar?</label>
-        <select id="type">
+<div class="form-group">
+    <label>O que você deseja gerar?</label>
+    <div class="custom-select-wrapper">
+        <select id="type" class="hidden">
             <option value="text">Texto</option>
             <option value="url">Link / URL</option>
             <option value="wifi">Rede Wi-Fi</option>
@@ -45,7 +45,23 @@
             <option value="vcard">Cartão de Contato</option>
             <option value="phone">Telefone</option>
         </select>
+
+        <div class="custom-select" id="customSelect">
+            <div class="custom-select-trigger">
+                <span>📝 Texto</span>
+                <div class="arrow"></div>
+            </div>
+            <div class="custom-options">
+                <span class="custom-option selected" data-value="text">📝 Texto</span>
+                <span class="custom-option" data-value="url">🌐 Link / URL</span>
+                <span class="custom-option" data-value="wifi">📶 Rede Wi-Fi</span>
+                <span class="custom-option" data-value="whatsapp">💬 WhatsApp</span>
+                <span class="custom-option" data-value="vcard">👤 Contato</span>
+                <span class="custom-option" data-value="phone">📱 Telefone</span>
+            </div>
+        </div>
     </div>
+</div>
 
     <div id="fields"></div>
 
@@ -62,7 +78,7 @@
 
     <section id="history-container" class="hidden">
         <div class="history-header">
-            <h3>Histórico</h3>
+            <h3>Seus QR Codes</h3>
             <button type="button" class="btn-clear-history" id="btnClearHistory" title="Limpar tudo">🗑️</button>
         </div>
         <div id="history"></div>
